@@ -19,11 +19,14 @@ public class nodoUsuario {
     
     public nodoUsuario(usuarioDto pDato){
         dato=pDato;
+        siguiente = null;
+        anterior = null;
     }
     
     public nodoUsuario(usuarioDto pDato, nodoUsuario pSiguiente, nodoUsuario pAnterior){
         dato=pDato;
         siguiente = pSiguiente;
+        anterior = pAnterior;
     }
 
     /**
