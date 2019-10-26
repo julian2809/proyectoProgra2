@@ -12,6 +12,11 @@ package modelo;
 public class usuarioDto {
     private String nombre;
     private String pass;
+    
+    public usuarioDto(String pNombre, String pPass){
+        nombre = pNombre;
+        pass = pPass;
+    }
     /**
      * @return the nombre
      */

@@ -8,16 +8,20 @@ package controlador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import servicio.Servicios;
 
 /**
  *
  * @author julia
  */
+@WebServlet(name = "UsuariosUI", urlPatterns = {"/UsuariosServlet"})
 public class UsuariosServlet extends HttpServlet {
 
+    Servicios servicio = new Servicios();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,16 +35,12 @@ public class UsuariosServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            String usuario = request.getParameter("user");
+            String password = request.getParameter("pass");
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UsuariosServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UsuariosServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            if (servicio.comprobarUsuarios(usuario, password)){
+                    response.sendRedirect("menu.jsp");
+                }
         }
     }
 
