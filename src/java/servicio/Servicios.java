@@ -7,6 +7,7 @@ package servicio;
 
 import java.util.ArrayList;
 import modelo.listaUsuario;
+import modelo.nodoUsuario;
 import modelo.usuarioDto;
 
 /**
@@ -25,7 +26,7 @@ public class Servicios {
         listaUsuariosDinamica.push(usuarioInicial);
     }
     
-    public boolean comprobarUsuarios(String nombre, String pass){
+    public boolean comprobarUsuarios2(String nombre, String pass){
         boolean resultado= false;
         for (usuarioDto u: listaUsuarios){
             if (u.getNombre().equals(nombre))
@@ -35,6 +36,23 @@ public class Servicios {
                     break;
                 }
             }
+        }
+        return resultado;
+    }
+    
+    public boolean comprobarUsuarios(String nombre, String pass){
+        boolean resultado= false;
+        nodoUsuario pivote = listaUsuariosDinamica.getInicio();
+        while (pivote!=null){
+            usuarioDto u = pivote.getDato();
+            if (u.getNombre().equals(nombre))
+            {
+                if (u.getPass().equals(pass)){
+                    resultado = true;
+                    break;
+                }
+            }
+            pivote= pivote.getSiguiente();
         }
         return resultado;
     }
