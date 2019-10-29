@@ -13,9 +13,10 @@
     </head>
     <body>
         <h1>SELECCIONE UNA OPCION</h1>
-        <form action="UsuariosServlet" method="post">
-            <input type="submit" value="REGISTRAR USUARIO" name="opcion" ></input>
-            <input type="submit" value="REGISTRAR ESTUDIANTE" name="opcion"></input>
+        <form action="MenuServlet" method="post" >
+            <input type="submit" value="REGISTRAR USUARIO" name="boton1"  ></input>
+            <br><br>            
+            <input type="submit" value="REGISTRAR ESTUDIANTE" name="boton2"></input>
         </form>
     </body>
 </html>
