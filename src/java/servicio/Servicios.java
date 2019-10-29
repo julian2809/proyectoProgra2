@@ -17,7 +17,7 @@ import modelo.usuarioDto;
 public class Servicios {
     usuarioDto usuario;
     ArrayList<usuarioDto> listaUsuarios;
-    listaUsuario listaUsuariosDinamica = new listaUsuario();
+    private listaUsuario listaUsuariosDinamica = new listaUsuario();
     
     public Servicios(){
         usuarioDto usuarioInicial = new usuarioDto("progra2", "umg123");
@@ -42,7 +42,7 @@ public class Servicios {
     
     public boolean comprobarUsuarios(String nombre, String pass){
         boolean resultado= false;
-        nodoUsuario pivote = listaUsuariosDinamica.getInicio();
+        nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
         while (pivote!=null){
             usuarioDto u = pivote.getDato();
             if (u.getNombre().equals(nombre))
@@ -55,5 +55,19 @@ public class Servicios {
             pivote= pivote.getSiguiente();
         }
         return resultado;
+    }
+
+    /**
+     * @return the listaUsuariosDinamica
+     */
+    public listaUsuario getListaUsuariosDinamica() {
+        return listaUsuariosDinamica;
+    }
+
+    /**
+     * @param listaUsuariosDinamica the listaUsuariosDinamica to set
+     */
+    public void setListaUsuariosDinamica(listaUsuario listaUsuariosDinamica) {
+        this.listaUsuariosDinamica = listaUsuariosDinamica;
     }
 }

@@ -9,9 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Registro Usuarios</title>
     </head>
     <body>
-        <h1>Registrar Usuarios!</h1>
+        <form action="RegistroUsuarioServlet" method="post">
+            <p>USUARIO: <input type="text" name="user"></input></p>
+            <p>CONTRASE&ntilde;A <input type="password" name="pass"></input></p>
+            <input type="submit" value="Guardar" name="botonGuardar"></input>
+            <input type="submit" value="Regresar" name="botonRegresarMenu"></input>
+        </form>
     </body>
 </html>
