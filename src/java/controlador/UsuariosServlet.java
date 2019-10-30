@@ -22,6 +22,7 @@ import servicio.Servicios;
 public class UsuariosServlet extends HttpServlet {
 
     Servicios servicio = new Servicios();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,9 +39,10 @@ public class UsuariosServlet extends HttpServlet {
             String usuario = request.getParameter("user");
             String password = request.getParameter("pass");
             /* TODO output your page here. You may use following sample code. */
-            if (servicio.comprobarUsuarios(usuario, password)){
-                    response.sendRedirect("menu.jsp");
-                }
+            servicio.cargarUsuarios();
+            if (servicio.comprobarUsuarios(usuario, password)) {
+                response.sendRedirect("menu.jsp");
+            }
         }
     }
 

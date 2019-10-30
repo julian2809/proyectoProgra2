@@ -5,6 +5,9 @@
  */
 package servicio;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import modelo.listaUsuario;
 import modelo.nodoUsuario;
@@ -26,20 +29,6 @@ public class Servicios {
         listaUsuariosDinamica.push(usuarioInicial);
     }
     
-    public boolean comprobarUsuarios2(String nombre, String pass){
-        boolean resultado= false;
-        for (usuarioDto u: listaUsuarios){
-            if (u.getNombre().equals(nombre))
-            {
-                if (u.getPass().equals(pass)){
-                    resultado = true;
-                    break;
-                }
-            }
-        }
-        return resultado;
-    }
-    
     public boolean comprobarUsuarios(String nombre, String pass){
         boolean resultado= false;
         nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
@@ -55,6 +44,55 @@ public class Servicios {
             pivote= pivote.getSiguiente();
         }
         return resultado;
+    }
+    
+    public boolean isArchivoVacio() {
+        try {
+            FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\usuarios.txt");
+            BufferedReader cadena = new BufferedReader(archivoE);
+            String MensajeLeido = cadena.readLine();
+            if (MensajeLeido != null) {
+                return false;
+            }
+            archivoE.close();
+        } catch (Exception e) {
+            return true;
+        }
+        return true;
+    }
+
+    public void cargarUsuarios() {
+        try {
+            FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\usuarios.txt");
+            BufferedReader cadena = new BufferedReader(archivoE);
+            String MensajeLeido = cadena.readLine();
+            while (MensajeLeido != null) {
+                String[] atributos = MensajeLeido.split(",");
+                usuario.setNombre(atributos[0]);
+                usuario.setPass(atributos[1]);
+                listaUsuariosDinamica.push(usuario);
+                MensajeLeido = cadena.readLine();
+                System.out.println("Linea leida");
+            }
+            archivoE.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void grabarUsuarios() {
+        try {
+            FileWriter archivo = new FileWriter("C:\\Users\\julia\\Documents\\Progra 2\\usuarios.txt");
+            nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
+            while (pivote != null) {
+                usuarioDto u = pivote.getDato();
+                archivo.write(u.getNombre() + "," + u.getPass());
+                pivote = pivote.getSiguiente();
+            }
+            archivo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
