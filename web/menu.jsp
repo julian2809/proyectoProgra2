@@ -17,6 +17,8 @@
             <input type="submit" value="REGISTRAR USUARIO" name="boton1"  ></input>
             <br><br>            
             <input type="submit" value="REGISTRAR ESTUDIANTE" name="boton2"></input>
+            <br><br> 
+            <output value="<% session.getAttribute("mostrarUsuarios");%>"/>
         </form>
     </body>
 </html>

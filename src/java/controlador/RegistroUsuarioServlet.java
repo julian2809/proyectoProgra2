@@ -45,6 +45,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 servicio.cargarUsuarios();
                 usuarioDto usuarioNuevo = new usuarioDto(usuario, password);
                 servicio.getListaUsuariosDinamica().push(usuarioNuevo);
+                servicio.grabarUsuarios();
                 //GENERANDO PAGINA DE RESPUESTA
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
@@ -59,7 +60,6 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 out.println("</form>");
                 out.println("</body>");
                 out.println("</html>");
-                servicio.grabarUsuarios();
             }else if (botonRegresar != null && botonRegresar.equals("Regresar")) {
                 response.sendRedirect("registrarUsuarios.jsp");
             }else if (botonRegresarMenu !=null && botonRegresarMenu.equals("Regresar")){

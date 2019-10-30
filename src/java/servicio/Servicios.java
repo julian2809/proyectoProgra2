@@ -20,13 +20,14 @@ import modelo.usuarioDto;
 public class Servicios {
     usuarioDto usuario;
     ArrayList<usuarioDto> listaUsuarios;
-    private listaUsuario listaUsuariosDinamica = new listaUsuario();
+    private listaUsuario listaUsuariosDinamica;
     
     public Servicios(){
-        usuarioDto usuarioInicial = new usuarioDto("progra2", "umg123");
+        //usuarioDto usuarioInicial = new usuarioDto("progra2", "umg123");
         listaUsuarios = new ArrayList<>();
-        listaUsuarios.add(usuarioInicial);
-        listaUsuariosDinamica.push(usuarioInicial);
+        listaUsuariosDinamica = new listaUsuario();
+        //listaUsuarios.add(usuarioInicial);
+        //listaUsuariosDinamica.push(usuarioInicial);
     }
     
     public boolean comprobarUsuarios(String nombre, String pass){
@@ -68,8 +69,7 @@ public class Servicios {
             String MensajeLeido = cadena.readLine();
             while (MensajeLeido != null) {
                 String[] atributos = MensajeLeido.split(",");
-                usuario.setNombre(atributos[0]);
-                usuario.setPass(atributos[1]);
+                usuario = new usuarioDto(atributos[0], atributos[1]);
                 listaUsuariosDinamica.push(usuario);
                 MensajeLeido = cadena.readLine();
                 System.out.println("Linea leida");
@@ -86,13 +86,24 @@ public class Servicios {
             nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
             while (pivote != null) {
                 usuarioDto u = pivote.getDato();
-                archivo.write(u.getNombre() + "," + u.getPass());
+                archivo.write(u.getNombre() + "," + u.getPass()+"\n");
                 pivote = pivote.getSiguiente();
             }
             archivo.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public String mostrarUsuarios(){
+        String resultado="Usuarios:\n";
+        nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
+            while (pivote != null) {
+                usuarioDto u = pivote.getDato();
+                resultado=resultado+u.getNombre() + "," + u.getPass()+"\n";
+                pivote = pivote.getSiguiente();
+            }
+        return resultado;
     }
 
     /**

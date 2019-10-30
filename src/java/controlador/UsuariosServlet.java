@@ -21,7 +21,7 @@ import servicio.Servicios;
 @WebServlet(name = "UsuariosUI", urlPatterns = {"/UsuariosServlet"})
 public class UsuariosServlet extends HttpServlet {
 
-    Servicios servicio = new Servicios();
+    Servicios servicio;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,11 +36,14 @@ public class UsuariosServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            servicio  = new Servicios();
             String usuario = request.getParameter("user");
             String password = request.getParameter("pass");
             /* TODO output your page here. You may use following sample code. */
             servicio.cargarUsuarios();
             if (servicio.comprobarUsuarios(usuario, password)) {
+                request.setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
                 response.sendRedirect("menu.jsp");
             }
         }
