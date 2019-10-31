@@ -70,7 +70,7 @@ public class Servicios {
             while (MensajeLeido != null) {
                 String[] atributos = MensajeLeido.split(",");
                 usuario = new usuarioDto(atributos[0], atributos[1]);
-                listaUsuariosDinamica.push(usuario);
+                listaUsuariosDinamica=listaUsuariosDinamica.push(usuario);
                 MensajeLeido = cadena.readLine();
                 System.out.println("Linea leida");
             }

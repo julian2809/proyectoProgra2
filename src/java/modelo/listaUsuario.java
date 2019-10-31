@@ -38,16 +38,33 @@ public class listaUsuario {
             }
             tamanio++;
         } else {
-            nodoUsuario anterior, p;
-            anterior = p = inicio;
-            nodoUsuario nuevoNodo = new nodoUsuario(pUsuarioNuevo);
-            while ((p.getSiguiente() != null)&&(vaPrimero(p.getDato().getNombre(),pUsuarioNuevo.getNombre()))){
-                anterior = p;
-                p = p.getSiguiente();
+            nodoUsuario tmp= new nodoUsuario(pUsuarioNuevo);
+            nodoUsuario bandera = inicio;
+            while (vaPrimero(bandera.getDato().getNombre(), pUsuarioNuevo.getNombre()) && bandera.getSiguiente()!=null){
+                bandera=bandera.getSiguiente();
             }
-            if (vaPrimero(p.getDato().getNombre(),pUsuarioNuevo.getNombre()))
-                anterior = p;
-            nuevoNodo.setSiguiente(anterior.getSiguiente());
+            if (bandera.getDato().getNombre().equals(inicio.getDato().getNombre())){
+                tmp.setSiguiente(inicio);
+                inicio.setAnterior(tmp);
+                inicio=tmp;
+            }else if (bandera.getSiguiente()==null){
+                if (vaPrimero(pUsuarioNuevo.getNombre(), bandera.getDato().getNombre())){
+                    bandera.getAnterior().setSiguiente(tmp);
+                    tmp.setSiguiente(bandera);
+                    tmp.setAnterior(bandera.getAnterior());
+                    bandera.setAnterior(tmp);
+                }else{
+                    tmp.setAnterior(bandera);
+                    bandera.setSiguiente(tmp);
+                    bandera=tmp;
+                }
+            }else{
+                tmp.setSiguiente(bandera);
+                tmp.setAnterior(bandera.getAnterior());
+                bandera.getAnterior().setSiguiente(tmp);
+                bandera.setAnterior(tmp);
+            }
+            return this;
         }
         return this;
     }

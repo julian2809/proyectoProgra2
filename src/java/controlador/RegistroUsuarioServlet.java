@@ -42,9 +42,11 @@ public class RegistroUsuarioServlet extends HttpServlet {
             String usuario = request.getParameter("user");
             String password = request.getParameter("pass");
             if (botonGuardar != null && botonGuardar.equals("Guardar")) {
-                servicio.cargarUsuarios();
+                if (servicio.getListaUsuariosDinamica().listaVacia()){
+                    servicio.cargarUsuarios();
+                }
                 usuarioDto usuarioNuevo = new usuarioDto(usuario, password);
-                servicio.getListaUsuariosDinamica().push(usuarioNuevo);
+                servicio.setListaUsuariosDinamica(servicio.getListaUsuariosDinamica().push(usuarioNuevo));
                 servicio.grabarUsuarios();
                 //GENERANDO PAGINA DE RESPUESTA
                 out.println("<!DOCTYPE html>");
