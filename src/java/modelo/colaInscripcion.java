@@ -20,6 +20,10 @@ public class colaInscripcion {
         tamanio = 0;
     }
     
+    public boolean isVacio(){
+        return tamanio==0;
+    }
+    
     public colaInscripcion push(estudianteDto datoEstudiante){
         nodoEstudiante tmp = new nodoEstudiante(datoEstudiante);
         if (tamanio == 0){
@@ -45,5 +49,33 @@ public class colaInscripcion {
         }
         tamanio--;
         return this;
+    }
+
+    /**
+     * @return the inicio
+     */
+    public nodoEstudiante getInicio() {
+        return inicio;
+    }
+
+    /**
+     * @param inicio the inicio to set
+     */
+    public void setInicio(nodoEstudiante inicio) {
+        this.inicio = inicio;
+    }
+
+    /**
+     * @return the fin
+     */
+    public nodoEstudiante getFin() {
+        return fin;
+    }
+
+    /**
+     * @param fin the fin to set
+     */
+    public void setFin(nodoEstudiante fin) {
+        this.fin = fin;
     }
 }

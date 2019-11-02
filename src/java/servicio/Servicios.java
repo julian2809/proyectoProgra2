@@ -9,8 +9,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Date;
+import modelo.colaInscripcion;
+import modelo.estudianteDto;
 import modelo.listaUsuario;
+import modelo.nodoEstudiante;
 import modelo.nodoUsuario;
+import modelo.pilaEstudiantes;
 import modelo.usuarioDto;
 
 /**
@@ -18,14 +23,19 @@ import modelo.usuarioDto;
  * @author julia
  */
 public class Servicios {
-    usuarioDto usuario;
+    private usuarioDto usuario;
+    private estudianteDto estudiante;
     ArrayList<usuarioDto> listaUsuarios;
+    private pilaEstudiantes pilaEstudiante;
+    private colaInscripcion colaEstudiantes;
     private listaUsuario listaUsuariosDinamica;
     
     public Servicios(){
         //usuarioDto usuarioInicial = new usuarioDto("progra2", "umg123");
         listaUsuarios = new ArrayList<>();
         listaUsuariosDinamica = new listaUsuario();
+        pilaEstudiante = new pilaEstudiantes();
+        colaEstudiantes = new colaInscripcion();
         //listaUsuarios.add(usuarioInicial);
         //listaUsuariosDinamica.push(usuarioInicial);
     }
@@ -79,6 +89,42 @@ public class Servicios {
             e.printStackTrace();
         }
     }
+    
+    public void cargarPila(){
+        try {
+            FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\pila.txt");
+            BufferedReader cadena = new BufferedReader(archivoE);
+            String MensajeLeido = cadena.readLine();
+            while (MensajeLeido != null) {
+                String[] atributos = MensajeLeido.split(",");
+                estudiante = new estudianteDto(Integer.parseInt(atributos[0]),atributos[1], atributos[2]);
+                pilaEstudiante = pilaEstudiante.push(estudiante);
+                MensajeLeido = cadena.readLine();
+                System.out.println("Linea leida");
+            }
+            archivoE.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void cargarCola(){
+        try {
+            FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\cola.txt");
+            BufferedReader cadena = new BufferedReader(archivoE);
+            String MensajeLeido = cadena.readLine();
+            while (MensajeLeido != null) {
+                String[] atributos = MensajeLeido.split(",");
+                estudiante = new estudianteDto(Integer.parseInt(atributos[0]),atributos[1], atributos[2]);
+                colaEstudiantes = colaEstudiantes.push(estudiante);
+                MensajeLeido = cadena.readLine();
+                System.out.println("Linea leida");
+            }
+            archivoE.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void grabarUsuarios() {
         try {
@@ -87,6 +133,38 @@ public class Servicios {
             while (pivote != null) {
                 usuarioDto u = pivote.getDato();
                 archivo.write(u.getNombre() + "," + u.getPass()+"\n");
+                pivote = pivote.getSiguiente();
+            }
+            archivo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void grabarPila(){
+        try {
+            FileWriter archivo = new FileWriter("C:\\Users\\julia\\Documents\\Progra 2\\pila.txt");
+            nodoEstudiante pivote = pilaEstudiante.getFin();
+            String texto="";
+            while (pivote != null) {
+                estudianteDto u = pivote.getDato();
+                texto=u.getCarnet()+","+u.getNombre() + "," + u.getFechaNacimiento().toString()+"\n"+texto;
+                pivote = pivote.getSiguiente();
+            }
+            archivo.write(texto);
+            archivo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void grabarCola(){
+        try {
+            FileWriter archivo = new FileWriter("C:\\Users\\julia\\Documents\\Progra 2\\cola.txt");
+            nodoEstudiante pivote = colaEstudiantes.getInicio();
+            while (pivote != null) {
+                estudianteDto u = pivote.getDato();
+                archivo.write(u.getCarnet()+","+u.getNombre() + "," + u.getFechaNacimiento().toString()+"\n");
                 pivote = pivote.getSiguiente();
             }
             archivo.close();
@@ -118,5 +196,47 @@ public class Servicios {
      */
     public void setListaUsuariosDinamica(listaUsuario listaUsuariosDinamica) {
         this.listaUsuariosDinamica = listaUsuariosDinamica;
+    }
+
+    /**
+     * @return the pilaEstudiante
+     */
+    public pilaEstudiantes getPilaEstudiante() {
+        return pilaEstudiante;
+    }
+
+    /**
+     * @param pilaEstudiante the pilaEstudiante to set
+     */
+    public void setPilaEstudiante(pilaEstudiantes pilaEstudiante) {
+        this.pilaEstudiante = pilaEstudiante;
+    }
+
+    /**
+     * @return the colaEstudiantes
+     */
+    public colaInscripcion getColaEstudiantes() {
+        return colaEstudiantes;
+    }
+
+    /**
+     * @param colaEstudiantes the colaEstudiantes to set
+     */
+    public void setColaEstudiantes(colaInscripcion colaEstudiantes) {
+        this.colaEstudiantes = colaEstudiantes;
+    }
+
+    /**
+     * @return the estudiante
+     */
+    public estudianteDto getEstudiante() {
+        return estudiante;
+    }
+
+    /**
+     * @param estudiante the estudiante to set
+     */
+    public void setEstudiante(estudianteDto estudiante) {
+        this.estudiante = estudiante;
     }
 }

@@ -9,9 +9,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Registro Usuarios</title>
     </head>
     <body>
-        <h1>Registrar Estudiante!</h1>
+        <form action="RegistroEstudianteServlet" method="post">
+            <p>CARNET: <input type="number" name="carnet"></input></p>
+            <p>NOMBRE: <input type="text" name="nombre"></input></p>
+            <p>FECHA NACIMIENTO: <input type="date" name="fechaNacimiento"></input></p>
+            <input type="submit" value="Guardar" name="botonGuardar"></input>
+            <input type="submit" value="Regresar" name="botonRegresarMenu"></input>
+        </form>
     </body>
 </html>

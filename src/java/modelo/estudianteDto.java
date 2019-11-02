@@ -14,9 +14,9 @@ import java.util.Date;
 public class estudianteDto {
     private int carnet;
     private String nombre;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     
-    public estudianteDto(int carnet, String nombre, Date fechaNacimiento){
+    public estudianteDto(int carnet, String nombre, String fechaNacimiento){
         this.carnet=carnet;
         this.nombre=nombre;
         this.fechaNacimiento=fechaNacimiento;
@@ -53,14 +53,15 @@ public class estudianteDto {
     /**
      * @return the fechaNacimiento
      */
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
     /**
      * @param fechaNacimiento the fechaNacimiento to set
      */
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
 }

@@ -7,6 +7,7 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +20,8 @@ import servicio.Servicios;
  *
  * @author julia
  */
-@WebServlet(name = "MenuServlet", urlPatterns = {"/MenuServlet"})
-public class MenuServlet extends HttpServlet {
+@WebServlet(name = "RegistroEstudianteServlet", urlPatterns = {"/RegistroEstudianteServlet"})
+public class RegistroEstudianteServlet extends HttpServlet {
     Servicios servicio = new Servicios();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,26 +36,24 @@ public class MenuServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String boton1 = request.getParameter("boton1");
-            String boton2 = request.getParameter("boton2");
-            String boton3 = request.getParameter("boton3");
-            String boton4 = request.getParameter("boton4");
+            String botonGuardar = request.getParameter("botonGuardar");
             String botonRegresar = request.getParameter("botonRegresar");
-            String botonCerrar = request.getParameter("botonCerrar");
-            if (boton1!=null && boton1.equals("REGISTRAR USUARIO")){
-                response.sendRedirect("registrarUsuarios.jsp");
+            String botonRegresarMenu = request.getParameter("botonRegresarMenu");
+            String sCarnet = request.getParameter("carnet");
+            int vCarnet=0;
+            if (sCarnet!=null && !sCarnet.isEmpty()){
+            vCarnet=Integer.parseInt(sCarnet);
             }
-            else if (boton2!=null && boton2.equals("REGISTRAR ESTUDIANTE")){
-                response.sendRedirect("registrarEstudiantes.jsp");
-            }
-            else if (boton3!=null && boton3.equals("AGREGAR A COLA DE INSCRIPCION")){
-                servicio.cargarPila();
-                servicio.cargarCola();
-                estudianteDto estudiante = servicio.getPilaEstudiante().getFin().getDato();
-                servicio.setColaEstudiantes(servicio.getColaEstudiantes().push(estudiante));
-                servicio.setPilaEstudiante(servicio.getPilaEstudiante().pop());
+            String vNombre = request.getParameter("nombre");
+            String vFecha=request.getParameter("fechaNacimiento");
+            if (botonGuardar != null && botonGuardar.equals("Guardar")) {
+                if (servicio.getPilaEstudiante().isVacia()){
+                    servicio.cargarPila();
+                }
+                estudianteDto estudianteNuevo = new estudianteDto(vCarnet, vNombre, vFecha);
+                servicio.setPilaEstudiante(servicio.getPilaEstudiante().push(estudianteNuevo));
                 servicio.grabarPila();
-                servicio.grabarCola();
+                
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
@@ -62,34 +61,16 @@ public class MenuServlet extends HttpServlet {
                 out.println("<title>Estudiante Guardado</title>");
                 out.println("</head>");
                 out.println("<body>");
-                out.print("<form action=\"MenuServlet\" method=\"post\">");
-                out.println("<h1>ESTUDIANTE "+ estudiante.getNombre() +" HA INGRESADO A LA COLA DE INSCRIPCION</h1>");
+                out.print("<form action=\"RegistroEstudianteServlet\" method=\"post\">");
+                out.println("<h1>ESTUDIANTE GUARDADO CON EXITO</h1>");
                 out.println("<input type=\"submit\" value=\"Regresar\" name=\"botonRegresar\"></input>");
                 out.println("</form>");
                 out.println("</body>");
                 out.println("</html>");
-            }else if (boton4!=null && boton4.equals("SACAR DE COLA DE INSCRIPCION")){
-                servicio.cargarCola();
-                estudianteDto estudiante = servicio.getColaEstudiantes().getInicio().getDato();
-                servicio.setColaEstudiantes(servicio.getColaEstudiantes().pop());
-                servicio.grabarCola();
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.print("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
-                out.println("<title>Estudiante Guardado</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.print("<form action=\"MenuServlet\" method=\"post\">");
-                out.println("<h1>ESTUDIANTE "+ estudiante.getNombre() +" HA SALIDO DE LA COLA DE INSCRIPCION</h1>");
-                out.println("<input type=\"submit\" value=\"Regresar\" name=\"botonRegresar\"></input>");
-                out.println("</form>");
-                out.println("</body>");
-                out.println("</html>");
-            }else if (botonRegresar!=null && botonRegresar.equals("Regresar")){
+            }else if (botonRegresar != null && botonRegresar.equals("Regresar")) {
+                response.sendRedirect("registrarEstudiantes.jsp");
+            }else if (botonRegresarMenu !=null && botonRegresarMenu.equals("Regresar")){
                 response.sendRedirect("menu.jsp");
-            }else if (botonCerrar!=null && botonCerrar.equals("CERRAR SESION")){
-                response.sendRedirect("index.xhtml");
             }
         }
     }

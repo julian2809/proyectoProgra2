@@ -18,6 +18,12 @@
             <br><br>            
             <input type="submit" value="REGISTRAR ESTUDIANTE" name="boton2"></input>
             <br><br> 
+            <input type="submit" value="AGREGAR A COLA DE INSCRIPCION" name="boton3"></input>
+            <br><br>
+            <input type="submit" value="SACAR DE COLA DE INSCRIPCION" name="boton4"></input>
+            <br><br>
+            <input type="submit" value="CERRAR SESION" name="botonCerrar"></input>
+            <br><br>
             <output value="<% session.getAttribute("mostrarUsuarios");%>"/>
         </form>
     </body>

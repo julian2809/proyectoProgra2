@@ -10,19 +10,23 @@ package modelo;
  * @author julia
  */
 public class pilaEstudiantes {
-    nodoEstudiante fin;
+    private nodoEstudiante fin;
     int tamanio = 0;
     
     public pilaEstudiantes(){
         fin = new nodoEstudiante();
     }
     
+    public boolean isVacia(){
+        return tamanio==0;
+    }
+    
     public pilaEstudiantes push(estudianteDto datoEstudiante){
         if (tamanio ==0){
-            fin = new nodoEstudiante(datoEstudiante);
+            setFin(new nodoEstudiante(datoEstudiante));
         }else {
-            nodoEstudiante tmp = new nodoEstudiante(datoEstudiante, fin);
-            fin = tmp;
+            nodoEstudiante tmp = new nodoEstudiante(datoEstudiante, getFin());
+            setFin(tmp);
         }
         tamanio ++;
         return this;
@@ -30,11 +34,25 @@ public class pilaEstudiantes {
     
     public pilaEstudiantes pop(){
         if (tamanio>0){
-            fin=fin.getSiguiente();
+            setFin(getFin().getSiguiente());
         }else{
-            fin=null;
+            setFin(null);
         }
         tamanio--;
         return this;
+    }
+
+    /**
+     * @return the fin
+     */
+    public nodoEstudiante getFin() {
+        return fin;
+    }
+
+    /**
+     * @param fin the fin to set
+     */
+    public void setFin(nodoEstudiante fin) {
+        this.fin = fin;
     }
 }
