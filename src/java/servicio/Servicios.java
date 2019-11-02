@@ -23,14 +23,15 @@ import modelo.usuarioDto;
  * @author julia
  */
 public class Servicios {
+
     private usuarioDto usuario;
     private estudianteDto estudiante;
     ArrayList<usuarioDto> listaUsuarios;
     private pilaEstudiantes pilaEstudiante;
     private colaInscripcion colaEstudiantes;
     private listaUsuario listaUsuariosDinamica;
-    
-    public Servicios(){
+
+    public Servicios() {
         //usuarioDto usuarioInicial = new usuarioDto("progra2", "umg123");
         listaUsuarios = new ArrayList<>();
         listaUsuariosDinamica = new listaUsuario();
@@ -39,24 +40,23 @@ public class Servicios {
         //listaUsuarios.add(usuarioInicial);
         //listaUsuariosDinamica.push(usuarioInicial);
     }
-    
-    public boolean comprobarUsuarios(String nombre, String pass){
-        boolean resultado= false;
+
+    public boolean comprobarUsuarios(String nombre, String pass) {
+        boolean resultado = false;
         nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
-        while (pivote!=null){
+        while (pivote != null) {
             usuarioDto u = pivote.getDato();
-            if (u.getNombre().equals(nombre))
-            {
-                if (u.getPass().equals(pass)){
+            if (u.getNombre().equals(nombre)) {
+                if (u.getPass().equals(pass)) {
                     resultado = true;
                     break;
                 }
             }
-            pivote= pivote.getSiguiente();
+            pivote = pivote.getSiguiente();
         }
         return resultado;
     }
-    
+
     public boolean isArchivoVacio() {
         try {
             FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\usuarios.txt");
@@ -80,7 +80,7 @@ public class Servicios {
             while (MensajeLeido != null) {
                 String[] atributos = MensajeLeido.split(",");
                 usuario = new usuarioDto(atributos[0], atributos[1]);
-                listaUsuariosDinamica=listaUsuariosDinamica.push(usuario);
+                listaUsuariosDinamica = listaUsuariosDinamica.push(usuario);
                 MensajeLeido = cadena.readLine();
                 System.out.println("Linea leida");
             }
@@ -89,15 +89,15 @@ public class Servicios {
             e.printStackTrace();
         }
     }
-    
-    public void cargarPila(){
+
+    public void cargarPila() {
         try {
             FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\pila.txt");
             BufferedReader cadena = new BufferedReader(archivoE);
             String MensajeLeido = cadena.readLine();
             while (MensajeLeido != null) {
                 String[] atributos = MensajeLeido.split(",");
-                estudiante = new estudianteDto(Integer.parseInt(atributos[0]),atributos[1], atributos[2]);
+                estudiante = new estudianteDto(Integer.parseInt(atributos[0]), atributos[1], atributos[2]);
                 pilaEstudiante = pilaEstudiante.push(estudiante);
                 MensajeLeido = cadena.readLine();
                 System.out.println("Linea leida");
@@ -107,15 +107,15 @@ public class Servicios {
             e.printStackTrace();
         }
     }
-    
-    public void cargarCola(){
+
+    public void cargarCola() {
         try {
             FileReader archivoE = new FileReader("C:\\Users\\julia\\Documents\\Progra 2\\cola.txt");
             BufferedReader cadena = new BufferedReader(archivoE);
             String MensajeLeido = cadena.readLine();
             while (MensajeLeido != null) {
                 String[] atributos = MensajeLeido.split(",");
-                estudiante = new estudianteDto(Integer.parseInt(atributos[0]),atributos[1], atributos[2]);
+                estudiante = new estudianteDto(Integer.parseInt(atributos[0]), atributos[1], atributos[2]);
                 colaEstudiantes = colaEstudiantes.push(estudiante);
                 MensajeLeido = cadena.readLine();
                 System.out.println("Linea leida");
@@ -131,8 +131,10 @@ public class Servicios {
             FileWriter archivo = new FileWriter("C:\\Users\\julia\\Documents\\Progra 2\\usuarios.txt");
             nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
             while (pivote != null) {
-                usuarioDto u = pivote.getDato();
-                archivo.write(u.getNombre() + "," + u.getPass()+"\n");
+                if (pivote.getDato() != null) {
+                    usuarioDto u = pivote.getDato();
+                    archivo.write(u.getNombre() + "," + u.getPass() + "\n");
+                }
                 pivote = pivote.getSiguiente();
             }
             archivo.close();
@@ -140,15 +142,17 @@ public class Servicios {
             e.printStackTrace();
         }
     }
-    
-    public void grabarPila(){
+
+    public void grabarPila() {
         try {
             FileWriter archivo = new FileWriter("C:\\Users\\julia\\Documents\\Progra 2\\pila.txt");
             nodoEstudiante pivote = pilaEstudiante.getFin();
-            String texto="";
+            String texto = "";
             while (pivote != null) {
-                estudianteDto u = pivote.getDato();
-                texto=u.getCarnet()+","+u.getNombre() + "," + u.getFechaNacimiento().toString()+"\n"+texto;
+                if (pivote.getDato() != null) {
+                    estudianteDto u = pivote.getDato();
+                    texto = u.getCarnet() + "," + u.getNombre() + "," + u.getFechaNacimiento().toString() + "\n" + texto;
+                }
                 pivote = pivote.getSiguiente();
             }
             archivo.write(texto);
@@ -157,14 +161,16 @@ public class Servicios {
             e.printStackTrace();
         }
     }
-    
-    public void grabarCola(){
+
+    public void grabarCola() {
         try {
             FileWriter archivo = new FileWriter("C:\\Users\\julia\\Documents\\Progra 2\\cola.txt");
             nodoEstudiante pivote = colaEstudiantes.getInicio();
             while (pivote != null) {
-                estudianteDto u = pivote.getDato();
-                archivo.write(u.getCarnet()+","+u.getNombre() + "," + u.getFechaNacimiento().toString()+"\n");
+                if (pivote.getDato() != null) {
+                    estudianteDto u = pivote.getDato();
+                    archivo.write(u.getCarnet() + "," + u.getNombre() + "," + u.getFechaNacimiento().toString() + "\n");
+                }
                 pivote = pivote.getSiguiente();
             }
             archivo.close();
@@ -172,15 +178,43 @@ public class Servicios {
             e.printStackTrace();
         }
     }
-    
-    public String mostrarUsuarios(){
-        String resultado="Usuarios:\n";
+
+    public String mostrarUsuarios() {
+        String resultado = "Usuarios:\n";
         nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
-            while (pivote != null) {
+        while (pivote != null) {
+            if (pivote.getDato() != null) {
                 usuarioDto u = pivote.getDato();
-                resultado=resultado+u.getNombre() + "," + u.getPass()+"\n";
-                pivote = pivote.getSiguiente();
+                resultado = resultado + u.getNombre() + "," + u.getPass() + "\n";
             }
+            pivote = pivote.getSiguiente();
+        }
+        return resultado;
+    }
+
+    public String mostrarPila() {
+        String resultado = "Pila Estudiantes:\n";
+        nodoEstudiante pivote = getPilaEstudiante().getFin();
+        while (pivote != null) {
+            if (pivote.getDato() != null) {
+                estudianteDto u = pivote.getDato();
+                resultado = u.getCarnet() + "," + u.getNombre() + "," + u.getFechaNacimiento() + "\n" + resultado;
+            }
+            pivote = pivote.getSiguiente();
+        }
+        return resultado;
+    }
+
+    public String mostrarCola() {
+        String resultado = "Cola Estudiantes:\n";
+        nodoEstudiante pivote = getColaEstudiantes().getInicio();
+        while (pivote != null) {
+            if (pivote.getDato() != null) {
+                estudianteDto u = pivote.getDato();
+                resultado = resultado + u.getCarnet() + "," + u.getNombre() + "," + u.getFechaNacimiento() + "\n";
+            }
+            pivote = pivote.getSiguiente();
+        }
         return resultado;
     }
 

@@ -24,7 +24,12 @@
             <br><br>
             <input type="submit" value="CERRAR SESION" name="botonCerrar"></input>
             <br><br>
-            <output value="<% session.getAttribute("mostrarUsuarios");%>"/>
+            <p><%
+                HttpSession s = request.getSession();
+                out.println(s.getAttribute("mostrarUsuarios"));
+                out.println(s.getAttribute("mostrarPila"));
+                out.println(s.getAttribute("mostrarCola"));               
+            %></p>
         </form>
     </body>
 </html>

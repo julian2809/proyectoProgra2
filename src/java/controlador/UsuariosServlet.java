@@ -41,9 +41,15 @@ public class UsuariosServlet extends HttpServlet {
             String password = request.getParameter("pass");
             /* TODO output your page here. You may use following sample code. */
             servicio.cargarUsuarios();
+            servicio.cargarPila();
+            servicio.cargarCola();
             if (servicio.comprobarUsuarios(usuario, password)) {
-                request.setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("lista",servicio.getListaUsuariosDinamica());
+                request.getSession().setAttribute("pila",servicio.getPilaEstudiante());
+                request.getSession().setAttribute("cola", servicio.getColaEstudiantes());
                 request.getSession().setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("mostrarPila",servicio.mostrarPila());
+                request.getSession().setAttribute("mostrarCola", servicio.mostrarCola());
                 response.sendRedirect("menu.jsp");
             }
         }
