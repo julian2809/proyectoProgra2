@@ -18,6 +18,19 @@
             <p>FECHA NACIMIENTO: <input type="date" name="fechaNacimiento"></input></p>
             <input type="submit" value="Guardar" name="botonGuardar"></input>
             <input type="submit" value="Regresar" name="botonRegresarMenu"></input>
+            <br><br>
+            <p><%
+                HttpSession s = request.getSession();
+                %>
+                Usuarios:<%
+                out.println(s.getAttribute("mostrarUsuarios"));
+                %>
+                Pila Estudiantes:<%
+                out.println(s.getAttribute("mostrarPila"));
+                %>
+                Cola inscripcion:<%
+                out.println(s.getAttribute("mostrarCola"));               
+            %></p>
         </form>
     </body>
 </html>

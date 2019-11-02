@@ -180,7 +180,7 @@ public class Servicios {
     }
 
     public String mostrarUsuarios() {
-        String resultado = "Usuarios:\n";
+        String resultado = "";
         nodoUsuario pivote = getListaUsuariosDinamica().getInicio();
         while (pivote != null) {
             if (pivote.getDato() != null) {
@@ -193,7 +193,7 @@ public class Servicios {
     }
 
     public String mostrarPila() {
-        String resultado = "Pila Estudiantes:\n";
+        String resultado = "";
         nodoEstudiante pivote = getPilaEstudiante().getFin();
         while (pivote != null) {
             if (pivote.getDato() != null) {
@@ -206,7 +206,7 @@ public class Servicios {
     }
 
     public String mostrarCola() {
-        String resultado = "Cola Estudiantes:\n";
+        String resultado = "";
         nodoEstudiante pivote = getColaEstudiantes().getInicio();
         while (pivote != null) {
             if (pivote.getDato() != null) {

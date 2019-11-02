@@ -13,7 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.colaInscripcion;
 import modelo.estudianteDto;
+import modelo.listaUsuario;
+import modelo.pilaEstudiantes;
 import servicio.Servicios;
 
 /**
@@ -22,7 +25,9 @@ import servicio.Servicios;
  */
 @WebServlet(name = "RegistroEstudianteServlet", urlPatterns = {"/RegistroEstudianteServlet"})
 public class RegistroEstudianteServlet extends HttpServlet {
+
     Servicios servicio = new Servicios();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,24 +41,27 @@ public class RegistroEstudianteServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            servicio.setListaUsuariosDinamica((listaUsuario) request.getSession().getAttribute("lista"));
+            servicio.setPilaEstudiante((pilaEstudiantes) request.getSession().getAttribute("pila"));
+            servicio.setColaEstudiantes((colaInscripcion) request.getSession().getAttribute("cola"));
             String botonGuardar = request.getParameter("botonGuardar");
             String botonRegresar = request.getParameter("botonRegresar");
             String botonRegresarMenu = request.getParameter("botonRegresarMenu");
             String sCarnet = request.getParameter("carnet");
-            int vCarnet=0;
-            if (sCarnet!=null && !sCarnet.isEmpty()){
-            vCarnet=Integer.parseInt(sCarnet);
+            int vCarnet = 0;
+            if (sCarnet != null && !sCarnet.isEmpty()) {
+                vCarnet = Integer.parseInt(sCarnet);
             }
             String vNombre = request.getParameter("nombre");
-            String vFecha=request.getParameter("fechaNacimiento");
+            String vFecha = request.getParameter("fechaNacimiento");
             if (botonGuardar != null && botonGuardar.equals("Guardar")) {
-                if (servicio.getPilaEstudiante().isVacia()){
-                    servicio.cargarPila();
-                }
+//                if (servicio.getPilaEstudiante().isVacia()){
+//                    servicio.cargarPila();
+//                }
                 estudianteDto estudianteNuevo = new estudianteDto(vCarnet, vNombre, vFecha);
                 servicio.setPilaEstudiante(servicio.getPilaEstudiante().push(estudianteNuevo));
-                servicio.grabarPila();
-                
+                //servicio.grabarPila();
+
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
@@ -67,9 +75,21 @@ public class RegistroEstudianteServlet extends HttpServlet {
                 out.println("</form>");
                 out.println("</body>");
                 out.println("</html>");
-            }else if (botonRegresar != null && botonRegresar.equals("Regresar")) {
+            } else if (botonRegresar != null && botonRegresar.equals("Regresar")) {
+                request.getSession().setAttribute("lista", servicio.getListaUsuariosDinamica());
+                request.getSession().setAttribute("pila", servicio.getPilaEstudiante());
+                request.getSession().setAttribute("cola", servicio.getColaEstudiantes());
+                request.getSession().setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("mostrarPila", servicio.mostrarPila());
+                request.getSession().setAttribute("mostrarCola", servicio.mostrarCola());
                 response.sendRedirect("registrarEstudiantes.jsp");
-            }else if (botonRegresarMenu !=null && botonRegresarMenu.equals("Regresar")){
+            } else if (botonRegresarMenu != null && botonRegresarMenu.equals("Regresar")) {
+                request.getSession().setAttribute("lista", servicio.getListaUsuariosDinamica());
+                request.getSession().setAttribute("pila", servicio.getPilaEstudiante());
+                request.getSession().setAttribute("cola", servicio.getColaEstudiantes());
+                request.getSession().setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("mostrarPila", servicio.mostrarPila());
+                request.getSession().setAttribute("mostrarCola", servicio.mostrarCola());
                 response.sendRedirect("menu.jsp");
             }
         }

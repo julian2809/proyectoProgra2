@@ -12,6 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.colaInscripcion;
+import modelo.listaUsuario;
+import modelo.pilaEstudiantes;
 import modelo.usuarioDto;
 import servicio.Servicios;
 
@@ -35,19 +38,21 @@ public class RegistroUsuarioServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+            servicio.setListaUsuariosDinamica((listaUsuario) request.getSession().getAttribute("lista"));
+            servicio.setPilaEstudiante((pilaEstudiantes) request.getSession().getAttribute("pila"));
+            servicio.setColaEstudiantes((colaInscripcion) request.getSession().getAttribute("cola"));
             String botonGuardar = request.getParameter("botonGuardar");
             String botonRegresar = request.getParameter("botonRegresar");
             String botonRegresarMenu = request.getParameter("botonRegresarMenu");
             String usuario = request.getParameter("user");
             String password = request.getParameter("pass");
             if (botonGuardar != null && botonGuardar.equals("Guardar")) {
-                if (servicio.getListaUsuariosDinamica().listaVacia()){
-                    servicio.cargarUsuarios();
-                }
+//                if (servicio.getListaUsuariosDinamica().listaVacia()){
+//                    servicio.cargarUsuarios();
+//                }
                 usuarioDto usuarioNuevo = new usuarioDto(usuario, password);
                 servicio.setListaUsuariosDinamica(servicio.getListaUsuariosDinamica().push(usuarioNuevo));
-                servicio.grabarUsuarios();
+                //servicio.grabarUsuarios();
                 //GENERANDO PAGINA DE RESPUESTA
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
@@ -63,8 +68,20 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }else if (botonRegresar != null && botonRegresar.equals("Regresar")) {
+                request.getSession().setAttribute("lista", servicio.getListaUsuariosDinamica());
+                request.getSession().setAttribute("pila", servicio.getPilaEstudiante());
+                request.getSession().setAttribute("cola", servicio.getColaEstudiantes());
+                request.getSession().setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("mostrarPila", servicio.mostrarPila());
+                request.getSession().setAttribute("mostrarCola", servicio.mostrarCola());
                 response.sendRedirect("registrarUsuarios.jsp");
             }else if (botonRegresarMenu !=null && botonRegresarMenu.equals("Regresar")){
+                request.getSession().setAttribute("lista", servicio.getListaUsuariosDinamica());
+                request.getSession().setAttribute("pila", servicio.getPilaEstudiante());
+                request.getSession().setAttribute("cola", servicio.getColaEstudiantes());
+                request.getSession().setAttribute("mostrarUsuarios", servicio.mostrarUsuarios());
+                request.getSession().setAttribute("mostrarPila", servicio.mostrarPila());
+                request.getSession().setAttribute("mostrarCola", servicio.mostrarCola());
                 response.sendRedirect("menu.jsp");
             }
 
